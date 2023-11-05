@@ -65,6 +65,7 @@ public class MovementLogic : MonoBehaviour
         } else if (!grounded)
         {
             anim.SetBool("Land", true);
+            anim.SetBool("Jump", false);
             rb.AddForce(Vector3.down * fallspeed * rb.mass, ForceMode.Force);
         }
     }
