@@ -18,6 +18,7 @@ public class EnemyLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = FindObjectOfType<PlayerLogic>().transform;
         agent = this.GetComponent<NavMeshAgent>();
         anim = this.GetComponentInChildren<Animator>();
         DefaultPosition = this.transform.position;
