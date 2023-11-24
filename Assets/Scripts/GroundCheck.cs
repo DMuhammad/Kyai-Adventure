@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-    MovementLogic logicmovement;
+    PlayerLogic logicmovement;
 
     // Start is called before the first frame update
     void Start()
     {
-        logicmovement = this.GetComponentInParent<MovementLogic>();
+        logicmovement = this.GetComponentInParent<PlayerLogic>();
     }
 
     private void OnTriggerEnter(Collider other)
