@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -197,7 +197,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90507935}
-  m_LocalRotation: {x: 0.053495713, y: -0.029318305, z: 0.0015713318, w: 0.9981364}
+  m_LocalRotation: {x: 0.053495757, y: -0.029318308, z: 0.0015713335, w: 0.9981364}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -455,7 +455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508275445}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -479,11 +479,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a52b34297202274ebaaf232a4828c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerOrientation: {fileID: 0}
+  anim: {fileID: 1921828104}
+  camlogic: {fileID: 1082911253}
   walkspeed: 1
   runspeed: 0.4
   jumppower: 5
   fallspeed: 2.5
-  anim: {fileID: 1921828104}
+  airMultiplier: 0
+  HitPoints: 100
+  ShootAudio: {fileID: 0}
+  StepAudio: {fileID: 0}
+  DeathAudio: {fileID: 0}
+  MaxHealth: 0
+  GetHit: {fileID: 0}
+  UIGameplay: {fileID: 0}
+  PlayerAlife: 0
 --- !u!136 &508275448
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -583,7 +594,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944407236}
-  m_LocalRotation: {x: 0.035331275, y: -0.029342037, z: 0.0010377873, w: 0.9989443}
+  m_LocalRotation: {x: 0.03533132, y: -0.029342044, z: 0.0010377888, w: 0.9989443}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -661,7 +672,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051492991}
-  m_LocalRotation: {x: 0.017203158, y: -0.029356042, z: 0.0005053093, w: 0.9994209}
+  m_LocalRotation: {x: 0.0172032, y: -0.029356042, z: 0.00050531054, w: 0.9994209}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -842,8 +853,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082911248}
-  m_LocalRotation: {x: 0.035331275, y: -0.029342039, z: 0.0010377872, w: 0.9989443}
-  m_LocalPosition: {x: 0.117390916, y: 0.7, z: -1.9965519}
+  m_LocalRotation: {x: 0.03533132, y: -0.029342048, z: 0.0010377889, w: 0.9989443}
+  m_LocalPosition: {x: 0.11739093, y: -2.04, z: -1.9965519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -896,9 +907,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066c38b93d4f4194a93d6d4c1016f667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 508275446}
+  Player: {fileID: 0}
   ViewPoint: {fileID: 1206942255}
+  AIMViewPoint: {fileID: 0}
   RotationSpeed: 7
+  TPSCamera: {fileID: 0}
+  AIMCamera: {fileID: 0}
+  crosshair: {fileID: 0}
 --- !u!1 &1152810211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435695729}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.117390916, y: 0.7, z: -1.9965519}
+  m_LocalPosition: {x: 0.11739093, y: -2.04, z: -1.9965519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
