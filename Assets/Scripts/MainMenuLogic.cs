@@ -65,7 +65,7 @@ public class MainMenuLogic : MonoBehaviour
     }
 
 
-public void Openhowtoplay()
+    public void Openhowtoplay()
     {
         if (PanelMainMenu.activeSelf)
         {

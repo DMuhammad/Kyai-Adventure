@@ -5,61 +5,49 @@ using UnityEngine.AI;
 
 public class EnemyLogic : MonoBehaviour
 {
-    [Header("Enemy Setting")]
     public float hitPoints = 100f;
     public float turnSpeed = 15f;
     public Transform target;
     public float ChaseRange;
     private NavMeshAgent agent;
-    private float DistancetoTarget;
-    private float DistancetoDefault;
+    private float DistanceToTarget;
+    private float DistanceToDefault;
     private Animator anim;
     Vector3 DefaultPosition;
 
-    [Header("Enemy SFX")]
-    public AudioClip GethitAudio;
-    public AudioClip StepAudio;
-    public AudioClip AttackSwingAudio;
-    public AudioClip AttackConnectAudio;
-    public AudioClip DeathAudio;
-    AudioSource EnemyAudio;
-
-    [Header("Enemy VFX")]
-    public ParticleSystem SlashEffect;
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        // target = FindAnyObjectByType<PlayerLogic>().transform;
+        target = FindObjectOfType<PlayerLogic>().transform;
         agent = this.GetComponent<NavMeshAgent>();
         anim = this.GetComponentInChildren<Animator>();
-        anim.SetFloat("HitPoint", hitPoints);
-        EnemyAudio = this.GetComponent<AudioSource>();
         DefaultPosition = this.transform.position;
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        DistancetoTarget = Vector3.Distance(target.position, transform.position);
-        DistancetoDefault = Vector3.Distance(DefaultPosition, transform.position);
+        DistanceToTarget = Vector3.Distance(target.position, transform.position);
+        DistanceToDefault = Vector3.Distance(DefaultPosition, transform.position);
 
-        if(DistancetoTarget <= ChaseRange && hitPoints != 0)
+        if (DistanceToTarget <= ChaseRange)
         {
-            FaceTarget(target.position);
-            if(DistancetoTarget > agent.stoppingDistance + 2f)
+
+            if (DistanceToTarget > agent.stoppingDistance)
             {
                 ChaseTarget();
-                SlashEffect.Stop();
             }
-            else if (DistancetoTarget <= agent.stoppingDistance)
+            else if (DistanceToTarget <= agent.stoppingDistance)
             {
                 Attack();
             }
         }
-        else if (DistancetoTarget >= ChaseRange * 2)
+        else if (DistanceToTarget > ChaseRange * 2)
         {
             agent.SetDestination(DefaultPosition);
             FaceTarget(DefaultPosition);
-            if(DistancetoDefault <= agent.stoppingDistance)
+
+            if (DistanceToDefault <= agent.stoppingDistance)
             {
                 Debug.Log("Time to stop");
                 anim.SetBool("Run", false);
@@ -68,16 +56,31 @@ public class EnemyLogic : MonoBehaviour
         }
     }
 
-    public void SlashEffectToggleOn()
-    {
-        SlashEffect.Play();
-    }
-
     private void FaceTarget(Vector3 destination)
     {
         Vector3 direction = (destination - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
+    }
+
+    public void HitConnect()
+    {
+        if (DistanceToTarget <= agent.stoppingDistance)
+        {
+            //target.GetComponent<PlayerLogic>().PlayerGetHit(50f);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        hitPoints -= damage;
+        anim.SetTrigger("GetHit");
+        anim.SetFloat("Hitpoint", hitPoints);
+
+        if (hitPoints <= 0)
+        {
+            Destroy(gameObject, 3f);
+        }
     }
 
     public void Attack()
@@ -94,44 +97,9 @@ public class EnemyLogic : MonoBehaviour
         anim.SetBool("Attack", false);
     }
 
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, ChaseRange);
     }
-    // Start is called before the first frame update
-    public void TakeDamage(float damage)
-    {
-        EnemyAudio.clip = GethitAudio;
-        EnemyAudio.Play();
-        hitPoints -= damage;
-        anim.SetTrigger("GetHit");
-        anim.SetFloat("HitPoint", hitPoints);
-        if(hitPoints <= 0)
-        {
-            EnemyAudio.clip = DeathAudio;
-            EnemyAudio.Play();
-            Destroy(gameObject, 3f);
-        }
-    }
-
-    public void HitConnect()
-    {
-        EnemyAudio.clip = AttackSwingAudio;
-        EnemyAudio.Play();
-        if (DistancetoTarget <= agent.stoppingDistance)
-        {
-            EnemyAudio.clip = AttackConnectAudio;
-            EnemyAudio.Play();
-            target.GetComponent<PlayerLogic>().PlayerGetHit(50f);
-        }
-    }
-
-    public void step()
-    {
-        EnemyAudio.clip = StepAudio;
-        EnemyAudio.Play();
-    }
-
-
 }
